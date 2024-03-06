@@ -9,6 +9,7 @@ import { createUser, deleteUser, updateUser } from "@/lib/actions/user.actions";
 
 export async function POST(req: Request) {
     // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
+    console.log("WEBHOOK_SECRET", process.env.WEBHOOK_SECRET);
     const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 
     if (!WEBHOOK_SECRET) {
@@ -58,7 +59,9 @@ export async function POST(req: Request) {
     const eventType = evt.type;
 
     // CREATE
+    console.log("Webhook event type:", eventType);
     if (eventType === "user.created") {
+        console.log("User created event");
         const { id, email_addresses, image_url, first_name, last_name, username } = evt.data;
 
         const user = {
